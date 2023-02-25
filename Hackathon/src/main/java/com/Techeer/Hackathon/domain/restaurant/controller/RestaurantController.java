@@ -44,7 +44,7 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurantInfoList);
     }
 
-    @GetMapping("/restaurants/category_list")
+    @GetMapping("/restaurants/category-list")
     public ResponseEntity<List<RestaurantInfo>> getRestaurantsByCategoryWithPagination(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
