@@ -6,6 +6,8 @@ import com.Techeer.Hackathon.domain.restaurant.dto.RestaurantInfo;
 import com.Techeer.Hackathon.domain.restaurant.dto.RestaurantUpdateRequest;
 import com.Techeer.Hackathon.domain.restaurant.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +44,14 @@ public class RestaurantService {
         Restaurant savedRestaurant = restaurantRepository.save(foundRestaurant);
 
         return mapRestaurantEntityToRestaurantInfo(savedRestaurant);
+    }
+
+    @Transactional
+    public void deleteRestaurant(Long id) {
+        Restaurant foundRestaurant = restaurantRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        foundRestaurant.deleteRestaurant();
+        restaurantRepository.save(foundRestaurant);
     }
 
     public Restaurant mapRestaurantEntityCreateRequestToRestaurant(RestaurantCreateRequest restaurantCreateRequest) {

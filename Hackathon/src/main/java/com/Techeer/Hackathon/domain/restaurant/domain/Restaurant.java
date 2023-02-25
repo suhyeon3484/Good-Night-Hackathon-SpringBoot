@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -38,5 +40,9 @@ public class Restaurant extends BaseEntity {
 
     public void update(RestaurantUpdateRequest restaurantUpdateRequest){
         this.category = restaurantUpdateRequest.getCategory();
+    }
+
+    public void deleteRestaurant() {
+        this.delete();
     }
 }
