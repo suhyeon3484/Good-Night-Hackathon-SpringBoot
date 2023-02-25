@@ -1,6 +1,7 @@
 package com.Techeer.Hackathon.domain.restaurant.domain;
 
 import com.Techeer.Hackathon.domain.restaurant.dto.RestaurantUpdateRequest;
+import com.Techeer.Hackathon.domain.review.domain.Review;
 import com.Techeer.Hackathon.global.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -29,7 +32,6 @@ public class Restaurant extends BaseEntity {
     private RestaurantCategory category;
 
 //    @OneToMany(mappedBy = "restaurant")
-//    @Builder.Default
 //    private List<Review> reviewList = new ArrayList<>();
 
     @Builder

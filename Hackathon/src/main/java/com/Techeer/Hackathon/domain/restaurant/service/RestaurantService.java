@@ -1,18 +1,19 @@
 package com.Techeer.Hackathon.domain.restaurant.service;
 
 import com.Techeer.Hackathon.domain.restaurant.domain.Restaurant;
+import com.Techeer.Hackathon.domain.restaurant.domain.RestaurantCategory;
 import com.Techeer.Hackathon.domain.restaurant.dto.RestaurantCreateRequest;
 import com.Techeer.Hackathon.domain.restaurant.dto.RestaurantInfo;
 import com.Techeer.Hackathon.domain.restaurant.dto.RestaurantUpdateRequest;
 import com.Techeer.Hackathon.domain.restaurant.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -32,6 +33,22 @@ public class RestaurantService {
                 .orElseThrow(EntityNotFoundException::new);
 
         return mapRestaurantEntityToRestaurantInfo(foundRestaurant);
+    }
+
+    @Transactional(readOnly = true)
+    public List<RestaurantInfo> getRestaurantListByPagination(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return restaurantRepository.findRestaurantsWithPagination(pageRequest).stream()
+                .map(this::mapRestaurantEntityToRestaurantInfo)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<RestaurantInfo> getRestaurantsByCategoryWithPagination(int page, int size, RestaurantCategory category) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return restaurantRepository.findRestaurantsByCategoryWithPagination(pageRequest, category).stream()
+                .map(this::mapRestaurantEntityToRestaurantInfo)
+                .collect(Collectors.toList());
     }
 
     @Transactional
