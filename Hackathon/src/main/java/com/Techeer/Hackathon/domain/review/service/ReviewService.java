@@ -5,6 +5,7 @@ import com.Techeer.Hackathon.domain.restaurant.repository.RestaurantRepository;
 import com.Techeer.Hackathon.domain.review.domain.Review;
 import com.Techeer.Hackathon.domain.review.dto.ReviewCreateRequest;
 import com.Techeer.Hackathon.domain.review.dto.ReviewInfo;
+import com.Techeer.Hackathon.domain.review.dto.ReviewUpdateRequest;
 import com.Techeer.Hackathon.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -61,6 +62,18 @@ public class ReviewService {
         return reviewRepository.findReviewContainingContentWithPagination(pageRequest, content).stream()
                 .map(this::mapReviewEntityToReviewInfo)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public ReviewInfo updateReview(ReviewUpdateRequest reviewUpdateRequest) {
+        Review foundReview = reviewRepository.findById(reviewUpdateRequest.getId())
+                .orElseThrow(EntityNotFoundException::new);
+
+        foundReview.update(reviewUpdateRequest);
+
+        Review savedReview = reviewRepository.save(foundReview);
+
+        return mapReviewEntityToReviewInfo(savedReview);
     }
 
     public Review mapReviewCreateRequestToReviewEntity(ReviewCreateRequest reviewCreateRequest, Restaurant restaurant) {

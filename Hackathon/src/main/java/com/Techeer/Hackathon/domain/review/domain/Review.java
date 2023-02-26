@@ -1,6 +1,7 @@
 package com.Techeer.Hackathon.domain.review.domain;
 
 import com.Techeer.Hackathon.domain.restaurant.domain.Restaurant;
+import com.Techeer.Hackathon.domain.review.dto.ReviewUpdateRequest;
 import com.Techeer.Hackathon.global.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,6 +37,11 @@ public class Review extends BaseEntity {
         this.title = title;
         this.content = content;
         this.restaurant = restaurant;
+    }
+
+    public void update(ReviewUpdateRequest reviewUpdateRequest) {
+        this.title = reviewUpdateRequest.getTitle();
+        this.content = reviewUpdateRequest.getContent();
     }
 
 

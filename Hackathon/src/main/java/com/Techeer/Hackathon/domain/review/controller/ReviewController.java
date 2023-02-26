@@ -4,6 +4,7 @@ package com.Techeer.Hackathon.domain.review.controller;
 import com.Techeer.Hackathon.domain.review.dto.ReviewCreateRequest;
 import com.Techeer.Hackathon.domain.review.dto.ReviewCreateResponse;
 import com.Techeer.Hackathon.domain.review.dto.ReviewInfo;
+import com.Techeer.Hackathon.domain.review.dto.ReviewUpdateRequest;
 import com.Techeer.Hackathon.domain.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -61,5 +62,11 @@ public class ReviewController {
         List<ReviewInfo> reviewInfoList =
                 reviewService.getReviewListWithContentByPagination(page, size, keyword);
         return ResponseEntity.ok(reviewInfoList);
+    }
+
+    @PutMapping("/reviews")
+    public ResponseEntity<ReviewInfo> updateReview(@RequestBody ReviewUpdateRequest reviewUpdateRequest) {
+        ReviewInfo reviewInfo = reviewService.updateReview(reviewUpdateRequest);
+        return ResponseEntity.ok(reviewInfo);
     }
 }
