@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @RestController
@@ -31,5 +33,12 @@ public class ReviewController {
         return ResponseEntity.ok(reviewInfo);
     }
 
+    @GetMapping("/reviews/list")
+    public ResponseEntity<List<ReviewInfo>> getReviewListByPagination(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        List<ReviewInfo> reviewInfoList = reviewService.getReviewListByPagination(page, size);
+        return ResponseEntity.ok(reviewInfoList);
+    }
 
 }

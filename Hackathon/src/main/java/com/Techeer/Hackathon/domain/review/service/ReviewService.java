@@ -7,10 +7,13 @@ import com.Techeer.Hackathon.domain.review.dto.ReviewCreateRequest;
 import com.Techeer.Hackathon.domain.review.dto.ReviewInfo;
 import com.Techeer.Hackathon.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -34,6 +37,14 @@ public class ReviewService {
                 .orElseThrow(EntityNotFoundException::new);
 
         return mapReviewEntityToReviewInfo(foundReview);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReviewInfo> getReviewListByPagination(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return reviewRepository.findReviewWithPagination(pageRequest).stream()
+                .map(this::mapReviewEntityToReviewInfo)
+                .collect(Collectors.toList());
     }
 
     public Review mapReviewCreateRequestToReviewEntity(ReviewCreateRequest reviewCreateRequest, Restaurant restaurant) {
