@@ -47,6 +47,22 @@ public class ReviewService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<ReviewInfo> getReviewListWithTitleByPagination(int page, int size, String title) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return reviewRepository.findReviewContainingTitleWithPagination(pageRequest, title).stream()
+                .map(this::mapReviewEntityToReviewInfo)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReviewInfo> getReviewListWithContentByPagination(int page, int size, String content) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return reviewRepository.findReviewContainingContentWithPagination(pageRequest, content).stream()
+                .map(this::mapReviewEntityToReviewInfo)
+                .collect(Collectors.toList());
+    }
+
     public Review mapReviewCreateRequestToReviewEntity(ReviewCreateRequest reviewCreateRequest, Restaurant restaurant) {
         return Review.builder()
                 .title(reviewCreateRequest.getTitle())

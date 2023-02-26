@@ -41,4 +41,25 @@ public class ReviewController {
         return ResponseEntity.ok(reviewInfoList);
     }
 
+    @GetMapping("/reviews/title")
+    public ResponseEntity<List<ReviewInfo>> getReviewListWithTitleByPagination(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "") String keyword
+    ) {
+        List<ReviewInfo> reviewInfoList =
+                reviewService.getReviewListWithTitleByPagination(page, size, keyword);
+        return ResponseEntity.ok(reviewInfoList);
+    }
+
+    @GetMapping("/reviews/content")
+    public ResponseEntity<List<ReviewInfo>> getReviewListWithContentByPagination(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "") String keyword
+    ) {
+        List<ReviewInfo> reviewInfoList =
+                reviewService.getReviewListWithContentByPagination(page, size, keyword);
+        return ResponseEntity.ok(reviewInfoList);
+    }
 }

@@ -16,4 +16,12 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("select r from Review r where r.isActive is true")
     Page<Review> findReviewWithPagination(Pageable pageable);
 
+    @Query("select r from Review r where r.isActive is true and r.title like %:keyword%")
+    Page<Review> findReviewContainingTitleWithPagination(
+            Pageable pageable, @Param("keyword") String keyword);
+
+    @Query("select r from Review r where r.isActive is true and r.content like %:keyword%")
+    Page<Review> findReviewContainingContentWithPagination(
+            Pageable pageable, @Param("keyword") String keyword);
+
 }
