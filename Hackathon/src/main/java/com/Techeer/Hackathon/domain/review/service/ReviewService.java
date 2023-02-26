@@ -28,11 +28,27 @@ public class ReviewService {
         reviewRepository.save(foundReview);
     }
 
+    @Transactional(readOnly = true)
+    public ReviewInfo getReviewDetail(Long id) {
+        Review foundReview = reviewRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+
+        return mapReviewEntityToReviewInfo(foundReview);
+    }
+
     public Review mapReviewCreateRequestToReviewEntity(ReviewCreateRequest reviewCreateRequest, Restaurant restaurant) {
         return Review.builder()
                 .title(reviewCreateRequest.getTitle())
                 .content(reviewCreateRequest.getContent())
                 .restaurant(restaurant)
+                .build();
+    }
+
+    public ReviewInfo mapReviewEntityToReviewInfo(Review review) {
+        return ReviewInfo.builder()
+                .title(review.getTitle())
+                .content(review.getContent())
+                .restaurantName(review.getRestaurant().getName())
                 .build();
     }
 }

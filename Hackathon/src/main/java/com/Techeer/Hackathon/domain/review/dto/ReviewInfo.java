@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ReviewInfo {
-    private long restaurantId;
-    private String title;
-    private String content;
+    private final String restaurantName;
+    private final String title;
+    private final String content;
 }
